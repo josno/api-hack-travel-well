@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    background-color: white;
+}
+/*
+header, div {
+    border: 2px solid red;
+} */
+
+.header-container {
+    /* margin-top: 12vh; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+
+}
+
+.logo {
+    background-color: gray;
+}
+
+h1 {
+    margin-top: 12vh;
+    background-color: gray;
+}
+
+.instructions-descrip {
+    text-align: center;
+    margin-left: 25vw;
+    margin-right: 25vw;
+    margin-top: 5vh;
+    margin-bottom:5vh;
+}
+
+input, fieldset, button {
+    width: 50vh;
+    height: 7vh;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+}
+
+select {
+    font-size: 18px;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.submit-button {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.hidden {
+    display: none;
+}
+
+.trip-summary {
+    border: 2px solid black;
+    margin-top: 3vh;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.results-container {
+    margin-top: 2em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 1em;
+    background-color: gray;
+    grid-auto-rows: 40vh;
+    /* grid-auto-rows: minmax(100px,auto) will make the box stretch to the font */
+    /* height: 400px; */
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.results-container > div {
+    border: 2px solid black;
+    padding: 1em;
+    margin: 2em;
+}
+
+.visa-box {
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+
+.weather-box {
+    grid-column: 3/5;
+    grid-row: 1/2;
+}
+
+.currency-box {
+    grid-column: 3/5;
+    grid-row: 2/3;
+}
+
+a {
+    display: inline-block;
+    margin-top: 10vh;
+}
+
+a::hover{
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 760px) {
+    /* .results-box {
+        width: 28vh;
+        height: 40vh;
+    } */
+
+    .results {
+        margin-top: 10vh;
+        justify-content: space-evenly;
+    }
+
+    .results-title {
+        display: none;
+    }
+
+}
+
+
