@@ -2,10 +2,10 @@
     box-sizing: border-box;
     background-color: white;
 }
-/*
-header, div {
-    border: 2px solid red;
-} */
+
+body {
+    font-size: 10px;
+}
 
 .header-container {
     /* margin-top: 12vh; */

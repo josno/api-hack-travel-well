@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <title>Travel Well</title>
 </head>
@@ -16,9 +15,9 @@
     <div class="instructions-descrip">Fill In The Form And Get Useful Travel Information</div>
     <form autocomplete="off">
         <div class="container">
-            <input type="text" class="nationality country-list" placeholder="Passport Country" required>
-            <input type="text" class="country country-list" placeholder="Destination Country" required>
-            <input type="text" class="city" placeholder="City You Will Arrive In" required>
+            <input type="text" class="nationality country-list autocomplete" placeholder="Passport Country" required>
+            <input type="text" class="country country-list autocomplete" id='log' placeholder="Destination Country" required>
+            <input type="text" class="city autocomplete" id="city" placeholder="City You Will Arrive In" required>
             <fieldset>
                 <select class="month" name="month-arrival" required>
                     <option>Month</option>
@@ -80,7 +79,7 @@
                     <option>2023</option>
                 </select>
             </fieldset>
-
+            <input id='date-test' type='text' size='8'/>
 
             <button type="button" class="submit-button">Go!</button>
         </div>
@@ -109,8 +108,9 @@
                 </div>
             </div>
         </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="index.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsmUFLGezEctCoq5s5Ois_Xq0nGmbUFUM&libraries=places&callback=initialize"></script>
 </body>
 </html>
