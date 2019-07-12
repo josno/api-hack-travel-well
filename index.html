@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <title>Travel Well</title>
 </head>
 <body>
@@ -13,12 +14,14 @@
         <h1 class="app-title">Travel Well</h1>
     </header>
     <div class="instructions-descrip">Fill In The Form And Get Useful Travel Information</div>
+
     <form autocomplete="off">
         <div class="container">
             <input type="text" class="nationality country-list autocomplete" placeholder="Passport Country" required>
             <input type="text" class="country country-list autocomplete" id='log' placeholder="Destination Country" required>
             <input type="text" class="city autocomplete" id="city" placeholder="City You Will Arrive In" required>
-            <fieldset>
+            <input id='datepicker' type='text' size='10' placeholder="What's Your Arrival Date?"/>
+            <!-- <fieldset>
                 <select class="month" name="month-arrival" required>
                     <option>Month</option>
                     <option value=1>January</option>
@@ -78,8 +81,7 @@
                     <option>2022</option>
                     <option>2023</option>
                 </select>
-            </fieldset>
-            <input id='date-test' type='text' size='8'/>
+            </fieldset> -->
 
             <button type="button" class="submit-button">Go!</button>
         </div>
@@ -111,6 +113,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsmUFLGezEctCoq5s5Ois_Xq0nGmbUFUM&libraries=places&callback=initialize"></script>
+
 </body>
 </html>

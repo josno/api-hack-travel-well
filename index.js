@@ -171,7 +171,9 @@ function renderWeatherInfo(responseJson){
 
 /* DOM Manipulation Functions End Here*/
 
-$('#date-test').datePicker({})
+$(function() {
+  $('#datepicker').datepicker();
+});
 
 /*UI Autocomplete Here*/
 
