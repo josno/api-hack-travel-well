@@ -17,13 +17,15 @@ $('body').on('click','.submit-button', function () {
     appState['destinationCountry'] = $('.country').val()
     appState['citizenship'] = $('.nationality').val()
     appState['destinationCity'] = $('.city').val()
+    appState['date'] = $('#datepicker').val()
+    // appState['renderedDate'] = appState['date'].toString()
 
     let month = $('.month').val()
     let monthText = $('.month option:selected').text()
     let day = $('.day').val()
     let year = $('.year').val()
-    appState['date'] = `${year}-${month}-${day}`
-    appState['renderedDate'] = `${monthText} ${day}, ${year}`
+    // appState['date'] = `${year}-${month}-${day}`
+    getDateString(appState)
 
     renderUserInfo(appState)
     getCountryCodes(appState['citizenship'], appState['destinationCountry'])
@@ -43,11 +45,12 @@ function getCountryCodes(citizenship, destination) {
   Promise.all([ //returns array with city and currency codes
     fetch(citizenshipUrl)
       .then(response => response.json())
+        // .then(response => response.filter(obj => { return(obj.name == citizenship)}))
       .then(responseCitizenship => [responseCitizenship[0].alpha2Code, responseCitizenship[0].currencies[0]])
       .catch(err => handleErrors(err)),
     fetch(destinationUrl)
       .then(response => response.json())
-      //condition if input name matches object value name exactly return the alpha2 code (put in a function)
+        // .then(response => response.filter(obj => { return(obj.name === destination)}))
       .then(responseDestination => [responseDestination[0].alpha2Code, responseDestination[0].currencies[0]])
       .catch(err => handleErrors(err))
   ])
@@ -68,7 +71,7 @@ function getCountryCodes(citizenship, destination) {
 function handleErrors(err){
   $('.results-page').hide()
   $('.error-box').show()
-  $('.error-box').html(`Something went wrong. Error '${err.message}'`)
+  $('.error-box').html(`Something went wrong. Check your countries or city and try again. Error '${err.status}'`)
 }
 
 function getVisaInfo(citizenship, destination) {
@@ -115,6 +118,7 @@ function getCityCoordinates(appState){
 
 function getWeatherInfo(lat, lon, date){
   let dateTime = new Date(date).getTime();
+  console.log(dateTime)
   let timestamp = Math.floor(dateTime / 1000);
 
   let weatherKey = "dc87cbf11257ad136a53a6eb41f28e06"
@@ -128,6 +132,12 @@ function getWeatherInfo(lat, lon, date){
 
   return fetch("https://cors-anywhere.herokuapp.com/" + weatherUrl, myHeader)
     .then(response => response.json())
+}
+
+function checkCitizenship(response, citizenship){
+  response.filter(obj => {
+    return(obj.name === citizenship)
+  })
 }
 /*API Functions End Here*/
 
@@ -171,8 +181,17 @@ function renderWeatherInfo(responseJson){
 
 /* DOM Manipulation Functions End Here*/
 
+function getDateString(obj){
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  let now = new Date(obj['date']);
+  obj['renderedDate'] = (days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear());
+}
+
 $(function() {
-  $('#datepicker').datepicker();
+  $('#datepicker').datepicker({
+    dateFormat: 'yy-mm-dd',
+    minDate: 0});
 });
 
 /*UI Autocomplete Here*/
@@ -189,16 +208,16 @@ $(function() {
 // }
 function initialize() {
 
-  var acInputs = document.getElementsByClassName("autocomplete");
+  let acInputs = document.getElementsByClassName("autocomplete");
 
-  for (var i = 0; i < acInputs.length; i++) {
+  for (let i = 0; i < acInputs.length; i++) {
 
-      var autocomplete = new google.maps.places.Autocomplete(acInputs[i]);
+      let autocomplete = new google.maps.places.Autocomplete(acInputs[i]);
       autocomplete.inputId = acInputs[i].id;
 
-      google.maps.event.addListener(autocomplete, 'place_changed', function () {
-          document.getElementById("log").innerHTML = 'You used input with id ' + this.inputId;
-      });
+      // google.maps.event.addListener(autocomplete, 'place_changed', function () {
+      //     document.getElementById("log").innerHTML = 'You used input with id ' + this.inputId;
+      // });
   }
 }
 

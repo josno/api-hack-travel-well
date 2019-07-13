@@ -26,6 +26,11 @@ h1 {
     background-color: gray;
 }
 
+.background-hero {
+    background-image: url(https://raw.githubusercontent.com/josno/api-hack-travel-well/master/alex-blajan-NuX67NMvbus-unsplash.jpg);
+    object-fit: contain;
+}
+
 .instructions-descrip {
     text-align: center;
     margin-left: 25vw;
@@ -50,7 +55,8 @@ select {
 .container {
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
+    width: 50vw;
+    opacity: 0.2;
 }
 
 .submit-button {
