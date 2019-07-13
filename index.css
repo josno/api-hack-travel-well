@@ -1,10 +1,10 @@
 * {
     box-sizing: border-box;
-    background-color: white;
 }
-
+/* f781bc fdffdc */
 body {
     font-size: 10px;
+    background-color: #08ffc8;
 }
 
 .header-container {
@@ -26,10 +26,10 @@ h1 {
     background-color: gray;
 }
 
-.background-hero {
+/* .background-hero {
     background-image: url(https://raw.githubusercontent.com/josno/api-hack-travel-well/master/alex-blajan-NuX67NMvbus-unsplash.jpg);
     object-fit: contain;
-}
+} */
 
 .instructions-descrip {
     text-align: center;
@@ -40,23 +40,25 @@ h1 {
 }
 
 input, fieldset, button {
-    width: 50vh;
-    height: 7vh;
+    width: 80vw;
+    height: 10vh;
     display: block;
     margin-right: auto;
     margin-left: auto;
     position: relative;
 }
 
-select {
-    font-size: 18px;
-}
-
 .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2em;
+    background-color: white;
     margin-left: auto;
     margin-right: auto;
-    width: 50vw;
-    opacity: 0.2;
+    width: 90vw;
+    /* opacity: 0.8; */
+    color: black;
 }
 
 .submit-button {
