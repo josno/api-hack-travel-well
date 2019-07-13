@@ -3,6 +3,7 @@
 }
 /* f781bc fdffdc */
 body {
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 10px;
     background-color: #08ffc8;
 }
@@ -13,17 +14,13 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: gray;
-
-}
-
-.logo {
-    background-color: gray;
 }
 
 h1 {
+    font-family: 'Lily Script One', cursive;
+    color: #fff7f7;
+    font-size: 50px;
     margin-top: 12vh;
-    background-color: gray;
 }
 
 /* .background-hero {
@@ -64,6 +61,7 @@ input, fieldset, button {
 .submit-button {
     margin-top: 2vh;
     margin-bottom: 2vh;
+    font-family: 'Lily Script One', cursive;
 }
 
 .hidden {
