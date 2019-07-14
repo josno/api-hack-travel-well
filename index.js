@@ -10,13 +10,15 @@ const appState = {
 }
 
 $('body').on('click','.submit-button', function () {
+    changePage()
     $('.container').hide()
     $('h1').hide()
     $('.instructions-descrip').hide()
     $('.results-page').toggleClass('hidden')
+    
     appState['destinationCountry'] = $('.country').val()
     appState['citizenship'] = $('.nationality').val()
-    appState['destinationCity'] = $('.city').val()
+    appState['destinationCity'] = $('.city').val().split(',')[0]
     appState['date'] = $('#datepicker').val()
     // appState['renderedDate'] = appState['date'].toString()
 
@@ -24,9 +26,8 @@ $('body').on('click','.submit-button', function () {
     let monthText = $('.month option:selected').text()
     let day = $('.day').val()
     let year = $('.year').val()
-    // appState['date'] = `${year}-${month}-${day}`
-    getDateString(appState)
 
+    getDateString(appState)
     renderUserInfo(appState)
     getCountryCodes(appState['citizenship'], appState['destinationCountry'])
 
@@ -110,6 +111,7 @@ function getCityCoordinates(appState){
   let coordKey = "be3fdc44a8fcb1f93b5219a841e601cf"
   let countryCode = appState['destinationCountryCode']
   let city = appState['destinationCity']
+  console.log(city)
   let coordinateUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${coordKey}`
 
   return fetch(coordinateUrl)
@@ -163,7 +165,8 @@ function renderCurrencyExchange(responseJson){
 
   let travelCurrency = Object.values(lookAtValues)[0].to
 
-  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(2)
+  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(2) 
+  //lets show up to two decimals
 
   //Add a condition where if the same currency is used in both countries render a message that the same currency is being used
 
@@ -179,13 +182,26 @@ function renderWeatherInfo(responseJson){
   $('.weather-info').html(`Expect ${weatherText} on the day you arrive.`)
 }
 
+function changePage() {
+  $('.page-2')
+  .show()
+  .css('opacity', 0)
+  .fadeIn('slow')
+  .animate(
+    { opacity: 1 },
+    { queue: false, duration: 'slow' },
+    {"top": "-=30px"}
+  )
+  .delay(2000).slideUp('slow')
+}
+
 /* DOM Manipulation Functions End Here*/
 
 function getDateString(obj){
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   let now = new Date(obj['date']);
-  obj['renderedDate'] = (days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear());
+  obj['renderedDate'] = (days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear());
 }
 
 $(function() {
@@ -196,16 +212,6 @@ $(function() {
 
 /*UI Autocomplete Here*/
 
-// function activatePlacesSearch() {
-//   let options = {
-//       types: ['(regions)']
-//   };
-//   let city = document.getElementById('city');
-//   let country = document.getElementById('country');
-
-//   let autocomplete1 = new google.maps.places.Autocomplete(city, options);
-//   let autocomplete2 = new google.maps.places.Autocomplete(country, options);
-// }
 function initialize() {
 
   let acInputs = document.getElementsByClassName("autocomplete");
@@ -214,10 +220,6 @@ function initialize() {
 
       let autocomplete = new google.maps.places.Autocomplete(acInputs[i]);
       autocomplete.inputId = acInputs[i].id;
-
-      // google.maps.event.addListener(autocomplete, 'place_changed', function () {
-      //     document.getElementById("log").innerHTML = 'You used input with id ' + this.inputId;
-      // });
   }
 }
 

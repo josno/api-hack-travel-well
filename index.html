@@ -13,7 +13,7 @@
     <header class="header-container">
         <h1 class="app-title">Travel Well</h1>
     </header>
-    <div class="page-1 hidden">
+    <div class="page-1">
     <div class="instructions-descrip">Fill In The Form And Get Useful Travel Information</div>
 
     <form autocomplete="off">
@@ -28,12 +28,16 @@
         </div>
     </form>
     </div>
-    <div class="page-2">hello</div>
+    <div class="page-2 hidden">
+        <div class="img-container">
+            <img class="transition-img" src="https://raw.githubusercontent.com/josno/api-hack-travel-well/master/airport-sign.png" alt="airplane">
+        </div>
+    </div>
     <div class="error-box hidden"></div>
         <div class="results-page hidden">
             <div class="trip-summary">
                 <h2>Trip Summary</h2>
-                <p>Based on the information you gave your passport is from <span class='country-passport'>""</span> and you're going to <span class='destination-country'>""</span>.</p>
+                <p>Based on the information you gave, your passport country is <span class='country-passport'>""</span> and you're going to <span class='destination-country'>""</span>.</p>
                 <br/>You will be arriving in <span class='destination-city'>""</span> on <span class='arrival-date'></span>
             </div>
             <div class="results-container">
