@@ -11,9 +11,9 @@
 </head>
 <body>
     <header class="header-container">
-        <div class="logo">logo</div>
         <h1 class="app-title">Travel Well</h1>
     </header>
+    <div class="page-1 hidden">
     <div class="instructions-descrip">Fill In The Form And Get Useful Travel Information</div>
 
     <form autocomplete="off">
@@ -27,8 +27,9 @@
             </div>
         </div>
     </form>
-        <div class="error-box hidden">
-        </div>
+    </div>
+    <div class="page-2">hello</div>
+    <div class="error-box hidden"></div>
         <div class="results-page hidden">
             <div class="trip-summary">
                 <h2>Trip Summary</h2>
@@ -37,16 +38,16 @@
             </div>
             <div class="results-container">
                 <div class="visa-box results-box">
-                    <p>Visa Requirements</p>
+                    <p class="visa-title">Visa Requirements</p>
                     <p class='visa-info'></p>
-                </div>
+                </div> 
 
                 <div class="weather-box results-box">
-                    <p>Weather Information</p>
+                    <p class="weather-title">Weather Information</p>
                     <p class='weather-info'></p>
                 </div>
                 <div class="currency-box results-box">
-                    <p> Currency Information </p>
+                    <p class="currency-title"> Currency Information </p>
                     <p class='currency-info'></p>
                 </div>
             </div>

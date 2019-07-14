@@ -5,8 +5,11 @@
 body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 10px;
-    background-color: #08ffc8;
+    background-color: #293462;
+    color: #fff1c1;
 }
+
+/* https://colorhunt.co/palette/151976 */
 
 .header-container {
     /* margin-top: 12vh; */
@@ -20,49 +23,69 @@ h1 {
     font-family: 'Lily Script One', cursive;
     color: #fff7f7;
     font-size: 50px;
-    margin-top: 12vh;
+    margin: 1vh;
 }
-
-/* .background-hero {
-    background-image: url(https://raw.githubusercontent.com/josno/api-hack-travel-well/master/alex-blajan-NuX67NMvbus-unsplash.jpg);
-    object-fit: contain;
-} */
 
 .instructions-descrip {
     text-align: center;
-    margin-left: 25vw;
-    margin-right: 25vw;
-    margin-top: 5vh;
-    margin-bottom:5vh;
+    font-size: 1.5em;
+    width: 90vw;
+    margin-bottom: 2vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 input, fieldset, button {
-    width: 80vw;
+    width: 70vw;
     height: 10vh;
-    display: block;
     margin-right: auto;
     margin-left: auto;
     position: relative;
+}
+
+input {
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type=text]{
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 1em;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2em;
-    background-color: white;
+    background-color: #f76262;
+    width: 90vw;
+    color: black;
+    padding-top: 1em;
+    padding-bottom: 1em;
     margin-left: auto;
     margin-right: auto;
-    width: 90vw;
-    /* opacity: 0.8; */
-    color: black;
+    border-radius: 4px;
 }
 
 .submit-button {
     margin-top: 2vh;
     margin-bottom: 2vh;
     font-family: 'Lily Script One', cursive;
+    font-size: 3em;
+    border-radius: 4px;
+    line-height: 1vh;
+    background-color: white;
+    transition: 0.3s;
+    box-shadow: 0px 5px 8px #cf0000;
+    border: none;
 }
+
+.submit-button:hover {
+    background-position: left;
+    background-color: #F7A662;
+  }
 
 .hidden {
     display: none;
@@ -71,55 +94,38 @@ input, fieldset, button {
 .trip-summary {
     border: 2px solid black;
     margin-top: 3vh;
-}
-
-.results {
-    display: flex;
-    flex-wrap: wrap;
+    padding: 10px;
     text-align: center;
 }
 
 .results-container {
     margin-top: 2em;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 1em;
-    background-color: gray;
-    grid-auto-rows: 40vh;
-    /* grid-auto-rows: minmax(100px,auto) will make the box stretch to the font */
-    /* height: 400px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff1c1;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
+
+.results-box {
+    background-color: inherit;
+    color: #293462;
+}
+
 .results-container > div {
     border: 2px solid black;
     padding: 1em;
     margin: 2em;
 }
 
-.visa-box {
-    grid-column: 1/3;
-    grid-row: 1/3;
-}
-
-.weather-box {
-    grid-column: 3/5;
-    grid-row: 1/2;
-}
-
-.currency-box {
-    grid-column: 3/5;
-    grid-row: 2/3;
-}
-
-a {
-    display: inline-block;
-    /* margin-top: 10vh; */
-}
-
-a::hover{
-    cursor: pointer;
+.page-2 {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:  #f76262;
 }
 
 @media only screen and (min-width: 760px) {
@@ -136,6 +142,36 @@ a::hover{
     .results-title {
         display: none;
     }
+
+    .results-container {
+        margin-top: 2em;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 1em;
+        background-color: gray;
+        grid-auto-rows: 40vh;
+        /* grid-auto-rows: minmax(100px,auto) will make the box stretch to the font */
+        /* height: 400px; */
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .visa-box {
+        grid-column: 1/3;
+        grid-row: 1/3;
+    }
+    
+    .weather-box {
+        grid-column: 3/5;
+        grid-row: 1/2;
+    }
+    
+    .currency-box {
+        grid-column: 3/5;
+        grid-row: 2/3;
+    }
+    
 
 }
 
