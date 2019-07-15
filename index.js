@@ -9,27 +9,28 @@ const appState = {
   "renderedDate":""
 }
 
-$('body').on('click','.submit-button', function () {
-    changePage()
-    $('.container').hide()
-    $('h1').hide()
-    $('.instructions-descrip').hide()
-    $('.results-page').toggleClass('hidden')
+$('body').on('click','.submit-button', function (event) {
+  event.preventDefault()
+  changePage()
+  $('.container').hide()
+  $('h1').hide()
+  $('.instructions-descrip').hide()
+  $('.results-page').toggleClass('hidden')
     
-    appState['destinationCountry'] = $('.country').val()
-    appState['citizenship'] = $('.nationality').val()
-    appState['destinationCity'] = $('.city').val().split(',')[0]
-    appState['date'] = $('#datepicker').val()
-    // appState['renderedDate'] = appState['date'].toString()
+  appState['destinationCountry'] = $('.country').val()
+  appState['citizenship'] = $('.nationality').val()
+  appState['destinationCity'] = $('.city').val().split(',')[0]
+  appState['date'] = $('#datepicker').val()
+  // appState['renderedDate'] = appState['date'].toString()
 
-    let month = $('.month').val()
-    let monthText = $('.month option:selected').text()
-    let day = $('.day').val()
-    let year = $('.year').val()
+  let month = $('.month').val()
+  let monthText = $('.month option:selected').text()
+  let day = $('.day').val()
+  let year = $('.year').val()
 
-    getDateString(appState)
-    renderUserInfo(appState)
-    getCountryCodes(appState['citizenship'], appState['destinationCountry'])
+  getDateString(appState)
+  renderUserInfo(appState)
+  getCountryCodes(appState['citizenship'], appState['destinationCountry'])
 
 });
 
@@ -136,11 +137,6 @@ function getWeatherInfo(lat, lon, date){
     .then(response => response.json())
 }
 
-function checkCitizenship(response, citizenship){
-  response.filter(obj => {
-    return(obj.name === citizenship)
-  })
-}
 /*API Functions End Here*/
 
 /* DOM Manipulation Functions */
@@ -153,9 +149,27 @@ function renderUserInfo(appState){
 }
 
 function renderVisaText(sherpaResponse){
-    let textInfo = (sherpaResponse.visa[0].textual.text)
+    let notes = ''
+    let maxStay = '' 
 
-    $('.visa-info').append(textInfo.map(item => `<br>${item}</br>`))
+    if (sherpaResponse.visa[0].notes == null){
+      notes = "Unavailable"
+    } else {
+      notes = sherpaResponse.visa[0].notes
+    }
+    
+    if (sherpaResponse.visa[0].allowedStay === null) {
+      maxStay = "unknown"
+    } else {
+      maxStay = sherpaResponse.visa[0].allowedStay
+    }
+
+    $('.visa-info').html(
+      `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
+      <p class='center'> More Details </p>`)
+    
+    $('.visa-info').append(notes.map(item => `<br>${item}</br>`))  
+    
 }
 
 function renderCurrencyExchange(responseJson){
@@ -165,20 +179,33 @@ function renderCurrencyExchange(responseJson){
 
   let travelCurrency = Object.values(lookAtValues)[0].to
 
-  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(2) 
-  //lets show up to two decimals
+  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(4) 
+  //Show as many decimals to conver currency
 
   //Add a condition where if the same currency is used in both countries render a message that the same currency is being used
 
   if (homeCurrency == travelCurrency){
     $('.currency-info').html(`You can use your home currency for this destination`)
+  } else if (homeCurrency >= travelCurrency){
+    $('.currency-info').html(`1 ${homeCurrency} = <span class='red-style'>${roundedRate} ${travelCurrency}</span>`)
   } else {
-    $('.currency-info').html(`1 ${homeCurrency} = ${roundedRate} ${travelCurrency}`)
+    $('.currency-info').html(`<span class='red-style'>1 ${homeCurrency}</span> = ${roundedRate} ${travelCurrency}`)
   }
 }
 
 function renderWeatherInfo(responseJson){
   let weatherText = responseJson.currently.summary.toLowerCase()
+
+  if (weatherText.includes('drizzle')){
+    $('#weather').attr('src','umbrella.png')
+  } else if (weatherText.includes('cloudy')){
+    $('#weather').attr('src','cloudy.png')
+  } else if (weatherText.includes('snow')){
+    $('#weather').attr('src','cold.png')
+  } else {
+    $('#weather').attr('src','sun.png')
+  }
+
   $('.weather-info').html(`Expect ${weatherText} on the day you arrive.`)
 }
 
@@ -223,23 +250,27 @@ function initialize() {
   }
 }
 
+$( function() {
+  let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antarctiva", "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
+	,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia", "Bonaire, (Plurinational State Of)", "Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands"
+	,"British Indian Territory","Brunei","Bulgaria","Burkina Faso","Burundi", "Cabo Verde", "Cambodia","Cameroon","Canada","Cayman Islands", "Central African Republic", "Chad","Chile","China", "Christmas Island","Colombia","Congo, Democratic Republic of the","Cook Islands","Costa Rica"
+	,"Cote D'Ivoire","Croatia", "Cuba", "Curacao","Cyprus","Czechia","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"
+	,"Eritrea", "Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France", "French Guiana", "French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana"
+	,"Gibraltar","Greece","Greenland","Grenada", "Guadeloupe", "Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti", "Heard Island and McDonald Islands", "Holy See", "Honduras","Hong Kong","Hungary","Iceland","India"
+	,"Indonesia","Iran (Islamic Republic of)","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya", "Kiribati", "Korea (Democratic People's Republic of)", "Korea (Republic of)","Kuwait","Kyrgyzstan","Lao People's Democractic Republid","Latvia"
+	,"Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta", "Marshall Islands", "Martinique", "Mauritania"
+	,"Mauritius", "Mayotte","Mexico", "Micronesia (Federated States of)","MMoldova, Republic of","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia", "Nauru", "Nepal","Netherlands","New Caledonia"
+	,"New Zealand","Nicaragua","Niger","Nigeria", "Niue", "Norfolk Island", "North Macedonia", "Norther Mariana Islands", "Norway","Oman","Pakistan","Palestine, State of","Panama","Papua New Guinea","Paraguay","Peru","Philippines", "Pitcairn", "Poland","Portugal"
+  ,"Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French)", "Saint Pierre and Miquelon"
+  ,"Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles"
+	,"Sierra Leone","Singapore","Sint Maarten (Dutch part)", "Slovakia","Slovenia", "Solomon Islands", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan","Spain","Sri Lanka","Sudan"
+	,"Suriname","Svalbard and Jan Mayen","Sweden","Switzerland","Syrian Arab Republic","Taiwan, Province of China","Tajikistan","Tanzania, United Republic of","Thailand","Timor-Leste","Togo", "Tokelau", "Tonga","Trinidad and Tobago","Tunisia"
+	,"Turkey","Turkmenistan","Turks and Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","United States Minor Outlying Islands","Uruguay"
+  ,"Uzbekistan", "Vanuatu", "Venezuela (Bolivarian Republic of)","Viet Nam", "Virgin Islands (British)", "Virgin Islands (US)", "Wallis and Futuna", "Western Sahara", "Yemen","Zambia","Zimbabwe"];
 
-// let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
-// 	,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
-// 	,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"
-// 	,"Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"
-// 	,"Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana"
-// 	,"Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India"
-// 	,"Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia"
-// 	,"Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania"
-// 	,"Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia"
-// 	,"New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal"
-// 	,"Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles"
-// 	,"Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan"
-// 	,"Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia"
-// 	,"Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay"
-//   ,"Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  $( ".country-list" ).autocomplete({
+    source: countries,
+    minLength: 2,
+  });
+} );
 
-//   $('.country-list').autocomplete({
-//     source: countries
-//   },{});
