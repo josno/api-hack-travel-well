@@ -69,7 +69,7 @@ input[type=text]{
     border-radius: 4px;
 }
 
-.submit-button {
+.button-style {
     margin-top: 2vh;
     margin-bottom: 2vh;
     font-family: 'Lily Script One', cursive;

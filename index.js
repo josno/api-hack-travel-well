@@ -237,6 +237,24 @@ $(function() {
     minDate: 0});
 });
 
+$('body').on('click', '.restart-button', function (event) {
+  $('.container').show()
+  $('h1').show()
+  $('.instructions-descrip').show()
+  $('.results-page').toggleClass('hidden')
+
+  appState['destinationCountry'] = '',
+  appState['citizenship'] = '',
+  appState['destinationCity'] = '',
+  appState['date'] = '',
+  appState['renderedDate'] = '',
+  appState['destinationCountryCode'] = '',
+
+  $('.visa-info').empty()
+  $('.input').val('')
+  
+});
+
 /*UI Autocomplete Here*/
 
 function initialize() {
