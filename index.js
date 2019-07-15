@@ -269,7 +269,7 @@ function initialize() {
 }
 
 $( function() {
-  let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antarctiva", "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
+  let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antarctica", "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
 	,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia", "Bonaire, (Plurinational State Of)", "Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands"
 	,"British Indian Territory","Brunei","Bulgaria","Burkina Faso","Burundi", "Cabo Verde", "Cambodia","Cameroon","Canada","Cayman Islands", "Central African Republic", "Chad","Chile","China", "Christmas Island","Colombia","Congo, Democratic Republic of the","Cook Islands","Costa Rica"
 	,"Cote D'Ivoire","Croatia", "Cuba", "Curacao","Cyprus","Czechia","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"

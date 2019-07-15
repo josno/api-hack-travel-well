@@ -85,7 +85,8 @@ input[type=text]{
 .submit-button:hover {
     background-position: left;
     background-color: #F7A662;
-  }
+    cursor: pointer;
+}
 
 .hidden {
     display: none;
@@ -127,15 +128,25 @@ input[type=text]{
     margin: 2em;
 }
 
-.red-style {
+.red-style, .error-box {
     color: red;
+    margin-top: 40vh;
+    text-align: center;
     font-weight: bolder;
-    font-size: 130%;
+    font-size: 120%;
+}
+
+.error-box {
+    font-size: 200%;
 }
 
 .page-2 {
     height: 100vh;
     background-color:  #f76262;
+}
+
+.restart-button {
+    font-size: 1em;
 }
 
 .img-container {
