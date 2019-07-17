@@ -9,17 +9,17 @@ const appState = {
   "renderedDate":""
 }
 
-$('body').on('click','.submit-button', function (event) {
+$('body').on('submit', function (event) {
   event.preventDefault()
   changePage()
   $('.container').hide()
   $('h1').hide()
   $('.instructions-descrip').hide()
   $('.results-page').toggleClass('hidden')
-    
+
   appState['destinationCountry'] = $('.country').val()
   appState['citizenship'] = $('.nationality').val()
-  appState['destinationCity'] = $('.city').val().split(',')[0]
+  appState['destinationCity'] = formatCity($('.city').val())
   appState['date'] = $('#datepicker').val()
   // appState['renderedDate'] = appState['date'].toString()
 
@@ -62,7 +62,7 @@ function getCountryCodes(citizenship, destination) {
         .then(sherpaResponse => renderVisaText(sherpaResponse))
       getCurrencyExchange(codes[0][1].code, codes[1][1].code)
         .then(currencyJson => renderCurrencyExchange(currencyJson))
-        .catch(err => handleErrors(err))
+        // .catch(err => handleErrors(err))
       getCityCoordinates(appState)
         .then(obj => getWeatherInfo(obj.coord.lat, obj.coord.lon, appState['date'])
           .then(weatherResponse => renderWeatherInfo(weatherResponse)))
@@ -140,6 +140,15 @@ function getWeatherInfo(lat, lon, date){
 /*API Functions End Here*/
 
 /* DOM Manipulation Functions */
+function formatCity(string){
+  if (string.includes(' -')){
+    return string.split(' -')[0]
+  } else {
+    return string.split(',')[0]
+  }
+};
+
+
 function renderUserInfo(appState){
   $('.country-passport').html(appState['citizenship'])
   $('.destination-country').html(appState['destinationCountry'])
@@ -150,14 +159,14 @@ function renderUserInfo(appState){
 
 function renderVisaText(sherpaResponse){
     let notes = ''
-    let maxStay = '' 
+    let maxStay = ''
 
     if (sherpaResponse.visa[0].notes == null){
       notes = "Unavailable"
     } else {
       notes = sherpaResponse.visa[0].notes
     }
-    
+
     if (sherpaResponse.visa[0].allowedStay === null) {
       maxStay = "unknown"
     } else {
@@ -167,9 +176,9 @@ function renderVisaText(sherpaResponse){
     $('.visa-info').html(
       `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
       <p class='center'> More Details </p>`)
-    
-    $('.visa-info').append(notes.map(item => `<br>${item}</br>`))  
-    
+
+    $('.visa-info').append(notes.map(item => `<br>${item}</br>`))
+
 }
 
 function renderCurrencyExchange(responseJson){
@@ -179,7 +188,7 @@ function renderCurrencyExchange(responseJson){
 
   let travelCurrency = Object.values(lookAtValues)[0].to
 
-  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(4) 
+  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(4)
   //Show as many decimals to conver currency
 
   //Add a condition where if the same currency is used in both countries render a message that the same currency is being used
@@ -252,7 +261,7 @@ $('body').on('click', '.restart-button', function (event) {
 
   $('.visa-info').empty()
   $('.input').val('')
-  
+
 });
 
 /*UI Autocomplete Here*/
@@ -268,7 +277,7 @@ function initialize() {
   }
 }
 
-$( function() {
+$( function () {
   let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antarctica", "Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
 	,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia", "Bonaire, (Plurinational State Of)", "Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands"
 	,"British Indian Territory","Brunei","Bulgaria","Burkina Faso","Burundi", "Cabo Verde", "Cambodia","Cameroon","Canada","Cayman Islands", "Central African Republic", "Chad","Chile","China", "Christmas Island","Colombia","Congo, Democratic Republic of the","Cook Islands","Costa Rica"
@@ -288,7 +297,7 @@ $( function() {
 
   $( ".country-list" ).autocomplete({
     source: countries,
-    minLength: 2,
+    minLength: 1,
   });
 } );
 
