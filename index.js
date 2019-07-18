@@ -161,13 +161,9 @@ function renderVisaText(sherpaResponse){
     let notes = ''
     let maxStay = ''
 
-    if (sherpaResponse.visa[0].notes == null){
-      notes = "Unavailable"
-    } else {
-      notes = sherpaResponse.visa[0].notes
-    }
-
-    if (sherpaResponse.visa[0].allowedStay === null) {
+    if (sherpaResponse.visa[0].allowedStay === null && sherpaResponse.visa[0].requirement ==="NOT_REQUIRED") {
+      maxStay = "You don't need a visa to enter this country. Stay as long as you like!"
+    } else if (sherpaResponse.visa[0].allowedStay === null) {
       maxStay = "unknown"
     } else {
       maxStay = sherpaResponse.visa[0].allowedStay
@@ -177,7 +173,24 @@ function renderVisaText(sherpaResponse){
       `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
       <p class='center'> More Details </p>`)
 
-    $('.visa-info').append(notes.map(item => `<br>${item}</br>`))
+    if (sherpaResponse.visa[0].notes == undefined || sherpaResponse.visa[0].notes.length == 0 ){
+      $('.visa-info').append(`Unavailable`)
+    } else {
+      notes = sherpaResponse.visa[0].notes
+      $('.visa-info').append(notes.map(item => `<br>${item}</br>`))
+    }
+
+    if (sherpaResponse.visa[0].requirement ==="ON_ARRIVAL") {
+      $('.visa-info').append(`You will get a visa on your arrival`)
+    } else if (sherpaResponse.visa[0].requirement ==="E_VISA" && sherpaResponse.visa[0].available === true) {
+      let link = sherpaResponse.visa.availableVisas[0].productRedirectUrl
+      $('.visa-info').append(`You can get an e-visa before you arrive here: ${link}`)
+    } else {
+      maxStay = sherpaResponse.visa[0].allowedStay
+    }
+
+
+    
 
 }
 
@@ -198,14 +211,18 @@ function renderCurrencyExchange(responseJson){
   } else if (homeCurrency >= travelCurrency){
     $('.currency-info').html(`1 ${homeCurrency} = <span class='red-style'>${roundedRate} ${travelCurrency}</span>`)
   } else {
-    $('.currency-info').html(`<span class='red-style'>1 ${homeCurrency}</span> = ${roundedRate} ${travelCurrency}`)
-  }
+    $('.currency-info').html(`<span class='red-style'>1 ${homeCurrency}</span> = ${roundedRate} ${travelCurrency}`)}
 }
 
 function renderWeatherInfo(responseJson){
-  let weatherText = responseJson.currently.summary.toLowerCase()
+  let weatherText = responseJson.daily.data[0].summary
+  let tempHighC = responseJson.daily.data[0].temperatureHigh 
+  let tempLowC = responseJson.daily.data[0].temperatureLow
 
-  if (weatherText.includes('drizzle')){
+  let tempHighF = Number.parseFloat((tempHighC-32)/1.8).toFixed(2)
+  let tempLowF = Number.parseFloat((tempLowC-32)/1.8).toFixed(2)
+
+  if (weatherText.includes('drizzle' || 'rain')){
     $('#weather').attr('src','umbrella.png')
   } else if (weatherText.includes('cloudy')){
     $('#weather').attr('src','cloudy.png')
@@ -215,7 +232,10 @@ function renderWeatherInfo(responseJson){
     $('#weather').attr('src','sun.png')
   }
 
-  $('.weather-info').html(`Expect ${weatherText} on the day you arrive.`)
+  $('.weather-info').html(`${weatherText} 
+  <p> Highs: ${tempHighC}&#8451 / ${tempHighF}&#8457</p> 
+  <p> Lows: ${tempLowC}&#8451 / ${tempLowF}&#8457</p>`)
+  
 }
 
 function changePage() {
