@@ -15,7 +15,6 @@ $('body').on('submit', function (event) {
   $('.container').hide()
   $('h1').hide()
   $('.instructions-descrip').hide()
-  $('.results-page').toggleClass('hidden')
 
   appState['destinationCountry'] = $('.country').val()
   appState['citizenship'] = $('.nationality').val()
@@ -166,7 +165,7 @@ function renderVisaText(sherpaResponse, appState){
     } else {
       notes = ''
     }
-    
+
 
     if (sherpaResponse.visa[0].allowedStay === null && sherpaResponse.visa[0].requirement ==="NOT_REQUIRED") {
       maxStay = "You don't need a visa to enter this country. Stay as long as you like!"
@@ -179,12 +178,9 @@ function renderVisaText(sherpaResponse, appState){
   $('.visa-info').html(
     `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
     <p class='center'> More Details </p>`)
- 
-  $('.visa-info').append(text.map(item => `<br>${item}</br>`))
 
-  if (appState["destinationCountry"] === appState["citizenship"]) {
-    $('.visa-info').append(`Hmmmm... you don't need a visa if you're traveling in the same country!`)
-  } else if (sherpaResponse.visa[0].requirement ==="ON_ARRIVAL") {
+
+   if (sherpaResponse.visa[0].requirement ==="ON_ARRIVAL") {
     $('.visa-info').append(`You will get a visa on your arrival.`)
   } else if (sherpaResponse.visa[0].requirement ==="E_VISA" && sherpaResponse.visa[0].available === true) {
     let link = sherpaResponse.visa[0].availableVisas[0].productRedirectUrl
@@ -192,10 +188,12 @@ function renderVisaText(sherpaResponse, appState){
   } else if (sherpaResponse.visa[0].requirement ==="EMBASSY_VISA") {
     $('.visa-info').append(`Get an embassy visa.<p>${notes}</p>`)
   } else if (sherpaResponse.visa[0].requirement ==="NOT_REQUIRED") {
-    $('.visa-info').append(`A visa is not required`)
+    $('.visa-info').append(``)
   } else {
     $('.visa-info').append(`<p> ${notes}</p>`)
   }
+
+  $('.visa-info').append(text.map(item => `<br>${item}</br>`))
 
 }
 
@@ -221,13 +219,13 @@ function renderCurrencyExchange(responseJson){
 
 function renderWeatherInfo(responseJson){
   let weatherText = responseJson.daily.data[0].summary
-  let tempHighC = responseJson.daily.data[0].temperatureHigh 
+  let tempHighC = responseJson.daily.data[0].temperatureHigh
   let tempLowC = responseJson.daily.data[0].temperatureLow
 
   let tempHighF = Number.parseFloat((tempHighC-32)/1.8).toFixed(2)
   let tempLowF = Number.parseFloat((tempLowC-32)/1.8).toFixed(2)
 
-  if (weatherText.includes('drizzle' || 'rain')){
+  if (weatherText.includes('rain')) {
     $('#weather').attr('src','umbrella.png')
   } else if (weatherText.includes('cloudy')){
     $('#weather').attr('src','cloudy.png')
@@ -237,15 +235,16 @@ function renderWeatherInfo(responseJson){
     $('#weather').attr('src','sun.png')
   }
 
-  $('.weather-info').html(`${weatherText} 
-  <p> Highs: ${tempHighC}&#8451 / ${tempHighF}&#8457</p> 
+  $('.weather-info').html(`${weatherText}
+  <p> Highs: ${tempHighC}&#8451 / ${tempHighF}&#8457</p>
   <p> Lows: ${tempLowC}&#8451 / ${tempLowF}&#8457</p>`)
-  
+
 }
 
 function changePage() {
+  $('.results-page').delay(2500).toggleClass('hidden')
   $('.page-2')
-  .show()
+  .delay(2500).show()
   .css('opacity', 0)
   .fadeIn('slow')
   .animate(
