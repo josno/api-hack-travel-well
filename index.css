@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
 }
-/* f781bc fdffdc */
+
 body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 10px;
@@ -171,11 +171,13 @@ input[type=text]{
 }
 
 @media only screen and (min-width: 760px) {
-    /* .results-box {
-        width: 28vh;
-        height: 40vh;
-    } */
-
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #293462;
+    }
+    
     .results {
         margin-top: 10vh;
         justify-content: space-evenly;
@@ -193,7 +195,7 @@ input[type=text]{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-column-gap: 1em;
-        background-color: gray;
+        background-color: #293462;
         grid-auto-rows: 40vh;
         /* grid-auto-rows: minmax(100px,auto) will make the box stretch to the font */
         height: 90vh;

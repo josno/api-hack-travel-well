@@ -157,9 +157,16 @@ function renderUserInfo(appState){
   $('.arrival-date').html(appState['renderedDate'])
 }
 
-function renderVisaText(sherpaResponse){
-    let notes = ''
+function renderVisaText(sherpaResponse, appState){
+    let text = sherpaResponse.visa[0].textual.text
     let maxStay = ''
+    let notes =''
+    if (sherpaResponse.visa[0].notes.length == 1){
+      notes = sherpaResponse.visa[0].notes[0]
+    } else {
+      notes = ''
+    }
+    
 
     if (sherpaResponse.visa[0].allowedStay === null && sherpaResponse.visa[0].requirement ==="NOT_REQUIRED") {
       maxStay = "You don't need a visa to enter this country. Stay as long as you like!"
@@ -169,28 +176,26 @@ function renderVisaText(sherpaResponse){
       maxStay = sherpaResponse.visa[0].allowedStay
     }
 
-    $('.visa-info').html(
-      `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
-      <p class='center'> More Details </p>`)
+  $('.visa-info').html(
+    `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
+    <p class='center'> More Details </p>`)
+ 
+  $('.visa-info').append(text.map(item => `<br>${item}</br>`))
 
-    if (sherpaResponse.visa[0].notes == undefined || sherpaResponse.visa[0].notes.length == 0 ){
-      $('.visa-info').append(`Unavailable`)
-    } else {
-      notes = sherpaResponse.visa[0].notes
-      $('.visa-info').append(notes.map(item => `<br>${item}</br>`))
-    }
-
-    if (sherpaResponse.visa[0].requirement ==="ON_ARRIVAL") {
-      $('.visa-info').append(`You will get a visa on your arrival`)
-    } else if (sherpaResponse.visa[0].requirement ==="E_VISA" && sherpaResponse.visa[0].available === true) {
-      let link = sherpaResponse.visa.availableVisas[0].productRedirectUrl
-      $('.visa-info').append(`You can get an e-visa before you arrive here: ${link}`)
-    } else {
-      maxStay = sherpaResponse.visa[0].allowedStay
-    }
-
-
-    
+  if (appState["destinationCountry"] === appState["citizenship"]) {
+    $('.visa-info').append(`Hmmmm... you don't need a visa if you're traveling in the same country!`)
+  } else if (sherpaResponse.visa[0].requirement ==="ON_ARRIVAL") {
+    $('.visa-info').append(`You will get a visa on your arrival.`)
+  } else if (sherpaResponse.visa[0].requirement ==="E_VISA" && sherpaResponse.visa[0].available === true) {
+    let link = sherpaResponse.visa[0].availableVisas[0].productRedirectUrl
+    $('.visa-info').append(`You can get an e-visa before you arrive <a href=${link}>here.</a>`)
+  } else if (sherpaResponse.visa[0].requirement ==="EMBASSY_VISA") {
+    $('.visa-info').append(`Get an embassy visa.<p>${notes}</p>`)
+  } else if (sherpaResponse.visa[0].requirement ==="NOT_REQUIRED") {
+    $('.visa-info').append(`A visa is not required`)
+  } else {
+    $('.visa-info').append(`<p> ${notes}</p>`)
+  }
 
 }
 
