@@ -9,10 +9,7 @@ body {
   color: #fff1c1;
 }
 
-/* https://colorhunt.co/palette/151976 */
-
 .header-container {
-  /* margin-top: 12vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,19 +32,12 @@ h1 {
   margin-right: auto;
 }
 
-input,
-fieldset {
+input{
+  display: block;
   width: 70vw;
   height: 60px;
   margin-right: auto;
   margin-left: auto;
-  position: relative;
-}
-
-input {
-  margin: 5px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 input[type='text'] {

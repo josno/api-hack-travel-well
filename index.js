@@ -9,31 +9,28 @@ const appState = {
   renderedDate: ''
 };
 
-$('body').on('submit', function(event) {
+$('body').on('submit', function (event) {
   event.preventDefault();
   $('.container').hide();
   $('h1').hide();
   $('.instructions-descrip').hide();
 
-  appState['destinationCountry'] = $('.country').val();
-  appState['citizenship'] = $('.nationality').val();
-  appState['destinationCity'] = formatCity($('.city').val());
-  appState['date'] = $('#datepicker').val();
+  appState.destinationCountry = $('.country').val();
+  appState.citizenship = $('.nationality').val();
+  appState.destinationCity = formatCity($('.city').val());
+  appState.date = $('#datepicker').val();
 
   getDateString(appState);
   renderUserInfo(appState);
-  getCountryCodes(appState['citizenship'], appState['destinationCountry']);
+  getAllInfo(appState.citizenship, appState.destinationCountry);
 });
 
 /* API Functions */
 //Gets the country objects from REST countries to pass through other functions that get visa & currency information
-function getCountryCodes(citizenship, destination) {
+function getAllInfo(citizenship, destination) {
   let citizenshipUrl = `https://restcountries.eu/rest/v2/name/${citizenship}`;
 
   let destinationUrl = `https://restcountries.eu/rest/v2/name/${destination}`;
-
-  console.log(citizenshipUrl);
-  console.log(destinationUrl);
 
   Promise.all([
     //returns array with city and currency codes
@@ -52,32 +49,21 @@ function getCountryCodes(citizenship, destination) {
       ])
       .catch(err => handleErrors(err))
   ]).then(codes => {
-    console.log(codes);
-    checkSameCountries(codes);
     getVisaInfo(codes[0][0], codes[1][0], appState).then(sherpaResponse =>
-      renderVisaText(sherpaResponse)
+      renderVisaText(sherpaResponse, appState)
     );
     getCurrencyExchange(codes[0][1].code, codes[1][1].code).then(currencyJson =>
       renderCurrencyExchange(currencyJson)
     );
-    // .catch(err => handleErrors(err))
     getCityCoordinates(appState)
       .then(obj =>
-        getWeatherInfo(obj.coord.lat, obj.coord.lon, appState['date']).then(
+        getWeatherInfo(obj.coord.lat, obj.coord.lon, appState.date).then(
           weatherResponse => renderWeatherInfo(weatherResponse)
         )
       )
       .then(changePage())
       .catch(err => handleErrors(err));
   });
-}
-
-function checkSameCountries(codes) {
-  if (codes[0][0] === codes[1][0]) {
-    $('.visa-info').append(
-      `Looks like you're traveling in the same country. You don't need a visa!`
-    );
-  }
 }
 
 function handleErrors(err) {
@@ -94,9 +80,7 @@ function getVisaInfo(citizenship, destination) {
 
   let urlBase = `https://requirements-api.sandbox.joinsherpa.com/v2/entry-requirements?citizenship=${citizenship}&destination=${destination}&language=en&key=${myKey}`;
 
-  appState['destinationCountryCode'] = destination;
-
-  console.log(urlBase);
+  appState.destinationCountryCode = destination;
 
   const myHeader = {
     //Gotta set a header to pass through authentication
@@ -115,16 +99,14 @@ function getCurrencyExchange(codeOne, codeTwo) {
 
   let currencyUrl = `https://free.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=ce2cecd71a30de95b210`;
 
-  console.log(currencyUrl);
-
   return fetch(currencyUrl).then(response => response.json());
 }
 
 function getCityCoordinates(appState) {
   let coordKey = 'be3fdc44a8fcb1f93b5219a841e601cf';
-  let countryCode = appState['destinationCountryCode'];
-  let city = appState['destinationCity'];
-  console.log(city);
+  let countryCode = appState.destinationCountryCode;
+  let city = appState.destinationCity;
+
   let coordinateUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${coordKey}`;
 
   return fetch(coordinateUrl).then(response => response.json());
@@ -132,7 +114,6 @@ function getCityCoordinates(appState) {
 
 function getWeatherInfo(lat, lon, date) {
   let dateTime = new Date(date).getTime();
-  console.log(dateTime);
   let timestamp = Math.floor(dateTime / 1000);
 
   let weatherKey = 'dc87cbf11257ad136a53a6eb41f28e06';
@@ -164,11 +145,11 @@ function formatCity(string) {
 }
 
 function renderUserInfo(appState) {
-  $('.country-passport').html(appState['citizenship']);
-  $('.destination-country').html(appState['destinationCountry']);
+  $('.country-passport').html(appState.citizenship);
+  $('.destination-country').html(appState.destinationCountry);
 
-  $('.destination-city').html(appState['destinationCity']);
-  $('.arrival-date').html(appState['renderedDate']);
+  $('.destination-city').html(appState.destinationCity);
+  $('.arrival-date').html(appState.renderedDate);
 }
 
 function renderVisaText(sherpaResponse, appState) {
@@ -176,46 +157,54 @@ function renderVisaText(sherpaResponse, appState) {
   let maxStay = '';
   let notes = '';
 
-  if (
-    sherpaResponse.visa[0].allowedStay === null &&
-    sherpaResponse.visa[0].requirement === 'NOT_REQUIRED'
-  ) {
-    maxStay =
-      "You don't need a visa to enter this country. Stay as long as you like!";
-  } else if (sherpaResponse.visa[0].allowedStay === null) {
-    maxStay = 'unknown';
-  } else {
-    maxStay = sherpaResponse.visa[0].allowedStay;
-  }
-
-  $('.visa-info').html(
-    `<p> Maximum Days Allowed to Visit: ${maxStay} </p>
-    <p class='center'> More Details </p>`
-  );
-
-  if (sherpaResponse.visa[0].requirement === 'ON_ARRIVAL') {
-    $('.visa-info').append(`You will get a visa on your arrival.`);
-  } else if (
-    sherpaResponse.visa[0].requirement === 'E_VISA' &&
-    sherpaResponse.visa[0].available === true
-  ) {
-    let link = sherpaResponse.visa[0].availableVisas[0].productRedirectUrl;
+  if (appState.destinationCountry === appState.citizenship) {
     $('.visa-info').append(
-      `You can get an e-visa before you arrive <a href=${link}>here.</a>`
-    );
-  } else if (sherpaResponse.visa[0].requirement === 'EMBASSY_VISA') {
-    $('.visa-info').append(`Get an embassy visa.<p>${notes}</p>`);
-  } else if (
-    sherpaResponse.visa[0].requirement === 'NOT_REQUIRED' &&
-    sherpaResponse.visa[0].notes.length == 1
-  ) {
-    notes = sherpaResponse.visa[0].notes[0];
-    $('.visa-info').append(`<p>${notes}</p>`);
+      `Looks like you're traveling in the same country. You don't need a visa!`
+    )
   } else {
-    $('.visa-info').append(``);
-  }
+    if (
+      sherpaResponse.visa[0].allowedStay === null &&
+      sherpaResponse.visa[0].requirement === 'NOT_REQUIRED'
+    ) {
+      maxStay =
+        "You don't need a visa to enter this country. Stay as long as you like!";
+    } else if (sherpaResponse.visa[0].allowedStay === null) {
+      maxStay = 'unknown';
+    } else {
+      maxStay = sherpaResponse.visa[0].allowedStay;
+    }
 
-  $('.visa-info').append(text.map(item => `<br>${item}</br>`));
+    $('.visa-info').html(
+      `<p> Maximum Days Allowed to Visit:</p>
+      <p> ${maxStay} </p>
+      <p class='center'> More Details </p>`
+    );
+
+    $('.visa-info').append(text.map(item => `<br>${item}</br>`));
+
+    if (sherpaResponse.visa[0].requirement === 'ON_ARRIVAL') {
+      $('.visa-info').append(`<p>You will get a visa at your destination.</p>`);
+    } else if (
+      sherpaResponse.visa[0].requirement === 'E_VISA' &&
+      sherpaResponse.visa[0].available === true
+    ) {
+      let link = sherpaResponse.visa[0].availableVisas[0].productRedirectUrl;
+      $('.visa-info').append(
+        `<p>You can get an e-visa before you arrive <a href=${link}>here.</a></p>`
+      );
+    } else if (sherpaResponse.visa[0].requirement === 'EMBASSY_VISA') {
+      $('.visa-info').append(`<p>Check with your closest embassy.<p>${notes}</p>`);
+    } else if (
+      sherpaResponse.visa[0].requirement === 'NOT_REQUIRED' &&
+      sherpaResponse.visa[0].notes.length == 1
+    ) {
+      notes = sherpaResponse.visa[0].notes[0];
+      $('.visa-info').append(`<p>${notes}</p>`);
+    } else {
+      $('.visa-info').append(``);
+    }
+
+  }
 }
 
 function renderCurrencyExchange(responseJson) {
@@ -322,25 +311,25 @@ function getDateString(obj) {
     now.getFullYear();
 }
 
-$(function() {
+$(function () {
   $('#datepicker').datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0
   });
 });
 
-$('body').on('click', '.restart-button', function(event) {
+$('body').on('click', '.restart-button', function (event) {
   $('.container').show();
   $('h1').show();
   $('.instructions-descrip').show();
   $('.results-page').toggleClass('hidden');
 
-  (appState['destinationCountry'] = ''),
-    (appState['citizenship'] = ''),
-    (appState['destinationCity'] = ''),
-    (appState['date'] = ''),
-    (appState['renderedDate'] = ''),
-    (appState['destinationCountryCode'] = ''),
+  (appState.destinationCountry = ''),
+    (appState.citizenship = ''),
+    (appState.destinationCity = ''),
+    (appState.date = ''),
+    (appState.renderedDate = ''),
+    (appState.destinationCountryCode = ''),
     $('.visa-info').empty();
   $('.input').val('');
   $('.error-box').hide();
@@ -357,7 +346,7 @@ function initialize() {
   }
 }
 
-$(function() {
+$(function () {
   let countries = [
     'Afghanistan',
     'Albania',

@@ -1,69 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One|Racing+Sans+One|Roboto|Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link rel='stylesheet' type='text/css' href='index.css'>
+    <link
+        href='https://fonts.googleapis.com/css?family=Lily+Script+One|Racing+Sans+One|Roboto|Source+Sans+Pro&display=swap'
+        rel='stylesheet'>
+    <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'>
     <title>Travel Well</title>
 </head>
+
 <body>
-    <header class="header-container">
-        <h1 class="app-title">Travel Well</h1>
+    <header class='header-container'>
+        <h1 class='app-title'>Travel Well</h1>
     </header>
-    <div class="page-1">
-    <div class="instructions-descrip">Fill In The Form And Get Useful Travel Information</div>
-    <div class="error-box hidden"></div>
-    <form>
-        <div class="container">
-            <div class="form-container"></div>
-                <input type="text" class="input nationality country-list" placeholder="Passport Country" required>
-                <input type="text" class="input country country-list" id='log' placeholder="Destination Country" required>
-                <input type="text" class="input city autocomplete" id="city" placeholder="City You Will Arrive In" required>
-                <input id='datepicker' class="input" type='text' size='12' placeholder="What's Your Arrival Date?" required>
-                <input type="submit" class="submit-button button-style" value="Go!">
+    <div class='page-1'>
+        <div class='instructions-descrip'>Fill In The Form And Get Useful Travel Information</div>
+        <div class='error-box hidden'></div>
+        <form>
+            <div class='container'>
+                <div class='form-container'>
+                    <label for='passport-country'>
+                        <input type='text' id='passport-country' class='input nationality country-list'
+                            placeholder='Passport Country' required>
+                    </label>
+                    <label for='destination-country'>
+                        <input type='text' class='input country country-list' id='destination-country'
+                            placeholder='Destination Country' required>
+                    </label>
+                    <label for='destination-city'>
+                        <input type='text' class='input city autocomplete' id='destination-city'
+                            placeholder='City You Will Arrive In' required>
+                    </label>
+                    <label for='datepicker'>
+                        <input id='datepicker' class='input' type='text' size='12'
+                            placeholder="What's Your Arrival Date?" required>
+                    </label>
+                    <label for='submit-button'>
+                        <input type='submit' id='submit-button' class='submit-button button-style' value="Go!">
+                    </label>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     <div class="page-2 hidden">
         <div class="img-container">
-            <img class="transition-img" src="https://raw.githubusercontent.com/josno/api-hack-travel-well/master/airport-sign.png" alt="airplane">
+            <img class="transition-img"
+                src="https://raw.githubusercontent.com/josno/api-hack-travel-well/master/airport-sign.png"
+                alt="airplane">
         </div>
     </div>
-        <div class="results-page hidden">
-            <div class="trip-summary">
-                <h2>Trip Summary</h2>
-                <p>Based on the information you gave, your passport country is <span class='country-passport'>""</span> and you're going to <span class='destination-country'>""</span>.</p>
-                <br/>You will be arriving in <span class='destination-city'>""</span> on <span class='arrival-date'.></span>
-            </div>
-            <div class="results-container">
-                <div class="visa-box results-box">
-                    <p class="visa-title class='center'">Visa Requirements</p>
-                    <img class="icon" src="passport.png" alt="passport-icon">
-                    <p class='visa-info'></p>
-                </div>
-
-                <div class="weather-box results-box">
-                    <p class="weather-title">Arrival Day Weather Summary</p>
-                    <img class="icon" id="weather" src="currency.png" alt="weather-icon">
-                    <p class='weather-info'></p>
-                </div>
-                <div class="currency-box results-box">
-                    <p class="currency-title"> Currency Information </p>
-                    <img class="icon" src="currency.png" alt="currency-icon">
-                    <p class='currency-info'></p>
-                </div>
-            </div>
-            <div class='button-center'><input type="submit" class="restart-button button-style" value="Look Up Another Country"></div>
+    <div class="results-page hidden">
+        <div class="trip-summary">
+            <h2>Trip Summary</h2>
+            <p>Based on the information you gave, your passport country is <span class='country-passport'>""</span> and
+                you're going to <span class='destination-country'>""</span>.</p>
+            <br />You will be arriving in <span class='destination-city'>""</span> on <span class='arrival-date'></span>
         </div>
+        <div class='results-container'>
+            <div class='visa-box results-box'>
+                <p class='visa-title center'>Visa Requirements</p>
+                <img class='icon' src='passport.png' alt='passport-icon'>
+                <p class='visa-info'></p>
+            </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="index.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsmUFLGezEctCoq5s5Ois_Xq0nGmbUFUM&libraries=places&callback=initialize"></script>
+            <div class='weather-box results-box'>
+                <p class='weather-title'>Arrival Day Weather Summary</p>
+                <img class='icon' id='weather' src='sun.png' alt='weather-icon'>
+                <p class='weather-info'></p>
+            </div>
+            <div class='currency-box results-box'>
+                <p class='currency-title'> Currency Information </p>
+                <img class='icon' src='currency.png' alt='currency-icon'>
+                <p class='currency-info'></p>
+            </div>
+        </div>
+        <div class='button-center'><input type='submit' class='restart-button button-style'
+                value='Look Up Another Country'></div>
+    </div>
 
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='index.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script type='text/javascript'
+        src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDsmUFLGezEctCoq5s5Ois_Xq0nGmbUFUM&libraries=places&callback=initialize'></script>
 </body>
+
 </html>
