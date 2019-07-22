@@ -9,7 +9,7 @@ const appState = {
   renderedDate: ''
 };
 
-$('body').on('submit', function (event) {
+$('body').on('submit', function(event) {
   event.preventDefault();
   $('.container').hide();
   $('h1').hide();
@@ -26,14 +26,17 @@ $('body').on('submit', function (event) {
 });
 
 /* API Functions */
-//Gets the country objects from REST countries to pass through other functions that get visa & currency information
+
+/*Gets the country objects from REST countries to pass through other functions 
+  that get visa & currency information*/
+
 function getAllInfo(citizenship, destination) {
   let citizenshipUrl = `https://restcountries.eu/rest/v2/name/${citizenship}`;
 
   let destinationUrl = `https://restcountries.eu/rest/v2/name/${destination}`;
 
   Promise.all([
-    //returns array with city and currency codes
+    //Returns array with city and currency codes
     fetch(citizenshipUrl)
       .then(response => response.json())
       .then(responseCitizenship => [
@@ -57,8 +60,8 @@ function getAllInfo(citizenship, destination) {
     );
     getCityCoordinates(appState)
       .then(obj =>
-        getWeatherInfo(obj.coord.lat, obj.coord.lon, appState.date).then(
-          weatherResponse => renderWeatherInfo(weatherResponse)
+        getWeatherInfo(obj.coord.lat, obj.coord.lon, appState.date).then(weatherResponse =>
+          renderWeatherInfo(weatherResponse)
         )
       )
       .then(changePage())
@@ -83,7 +86,7 @@ function getVisaInfo(citizenship, destination) {
   appState.destinationCountryCode = destination;
 
   const myHeader = {
-    //Gotta set a header to pass through authentication
+    //Need to set a header to pass through authentication
     headers: new Headers({
       accept: '*/*', //required
       mode: 'no-cors'
@@ -121,16 +124,14 @@ function getWeatherInfo(lat, lon, date) {
   let weatherUrl = `https://api.darksky.net/forecast/${weatherKey}/${lat},${lon},${timestamp}`;
 
   const myHeader = {
-    //Gotta set a header to pass through authentication
     headers: new Headers({
       mode: 'no-cors'
     })
   };
 
-  return fetch(
-    'https://cors-anywhere.herokuapp.com/' + weatherUrl,
-    myHeader
-  ).then(response => response.json());
+  return fetch('https://cors-anywhere.herokuapp.com/' + weatherUrl, myHeader).then(response =>
+    response.json()
+  );
 }
 
 /*API Functions End Here*/
@@ -160,14 +161,13 @@ function renderVisaText(sherpaResponse, appState) {
   if (appState.destinationCountry === appState.citizenship) {
     $('.visa-info').append(
       `Looks like you're traveling in the same country. You don't need a visa!`
-    )
+    );
   } else {
     if (
       sherpaResponse.visa[0].allowedStay === null &&
       sherpaResponse.visa[0].requirement === 'NOT_REQUIRED'
     ) {
-      maxStay =
-        "You don't need a visa to enter this country. Stay as long as you like!";
+      maxStay = "You don't need a visa to enter this country. Stay as long as you like!";
     } else if (sherpaResponse.visa[0].allowedStay === null) {
       maxStay = 'unknown';
     } else {
@@ -203,7 +203,6 @@ function renderVisaText(sherpaResponse, appState) {
     } else {
       $('.visa-info').append(``);
     }
-
   }
 }
 
@@ -214,17 +213,14 @@ function renderCurrencyExchange(responseJson) {
 
   let travelCurrency = Object.values(lookAtValues)[0].to;
 
-  let roundedRate = Number.parseFloat(
-    Object.values(lookAtValues)[0].val
-  ).toFixed(4);
-  //Show as many decimals to conver currency
+  let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(4);
+  /*Show as many decimals to convert currency*/
 
-  //Add a condition where if the same currency is used in both countries render a message that the same currency is being used
+  /*Add a condition where if the same currency is used in both countries render 
+    a message that the same currency is being used*/
 
   if (homeCurrency == travelCurrency) {
-    $('.currency-info').html(
-      `You can use your home currency for this destination`
-    );
+    $('.currency-info').html(`You can use your home currency for this destination`);
   } else if (homeCurrency >= travelCurrency) {
     $('.currency-info').html(
       `1 ${homeCurrency} = <span class='red-style'>${roundedRate} ${travelCurrency}</span>`
@@ -263,29 +259,15 @@ function changePage() {
   $('.page-2')
     .css('opacity', 0)
     .fadeIn('slow')
-    .animate(
-      { opacity: 1 },
-      { queue: false, duration: 'slow' },
-      { top: '-=30px' }
-    )
+    .animate({ opacity: 1 }, { queue: false, duration: 'slow' }, { top: '-=30px' })
     .slideUp('slow');
-  $('.results-page')
-    .delay(2500)
-    .toggleClass('hidden');
+  $('.results-page').show();
 }
 
 /* DOM Manipulation Functions End Here*/
 
 function getDateString(obj) {
-  let days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  ];
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   let months = [
     'January',
     'February',
@@ -311,26 +293,27 @@ function getDateString(obj) {
     now.getFullYear();
 }
 
-$(function () {
+$(function() {
   $('#datepicker').datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0
   });
 });
 
-$('body').on('click', '.restart-button', function (event) {
+$('body').on('click', '.restart-button', function(event) {
   $('.container').show();
   $('h1').show();
   $('.instructions-descrip').show();
-  $('.results-page').toggleClass('hidden');
+  $('.results-page').hide();
 
-  (appState.destinationCountry = ''),
-    (appState.citizenship = ''),
-    (appState.destinationCity = ''),
-    (appState.date = ''),
-    (appState.renderedDate = ''),
-    (appState.destinationCountryCode = ''),
-    $('.visa-info').empty();
+  appState.destinationCountry = '';
+  appState.citizenship = '';
+  appState.destinationCity = '';
+  appState.date = '';
+  appState.renderedDate = '';
+  appState.destinationCountryCode = '';
+
+  $('.visa-info').empty();
   $('.input').val('');
   $('.error-box').hide();
 });
@@ -346,7 +329,7 @@ function initialize() {
   }
 }
 
-$(function () {
+$(function() {
   let countries = [
     'Afghanistan',
     'Albania',
@@ -590,7 +573,6 @@ $(function () {
   ];
 
   $('.country-list').autocomplete({
-    source: countries,
-    minLength: 1
+    source: countries
   });
 });
