@@ -9,7 +9,7 @@ const appState = {
   renderedDate: ''
 };
 
-$('body').on('submit', function(event) {
+$('body').on('submit', function (event) {
   event.preventDefault();
   $('.container').hide();
   $('h1').hide();
@@ -27,7 +27,7 @@ $('body').on('submit', function(event) {
 
 /* API Functions */
 
-/*Gets the country objects from REST countries to pass through other functions 
+/*Gets the country objects from REST countries to pass through other functions
   that get visa & currency information*/
 
 function getAllInfo(citizenship, destination) {
@@ -216,7 +216,7 @@ function renderCurrencyExchange(responseJson) {
   let roundedRate = Number.parseFloat(Object.values(lookAtValues)[0].val).toFixed(4);
   /*Show as many decimals to convert currency*/
 
-  /*Add a condition where if the same currency is used in both countries render 
+  /*Add a condition where if the same currency is used in both countries render
     a message that the same currency is being used*/
 
   if (homeCurrency == travelCurrency) {
@@ -234,11 +234,11 @@ function renderCurrencyExchange(responseJson) {
 
 function renderWeatherInfo(responseJson) {
   let weatherText = responseJson.daily.data[0].summary;
-  let tempHighC = responseJson.daily.data[0].temperatureHigh;
-  let tempLowC = responseJson.daily.data[0].temperatureLow;
+  let tempHighF = responseJson.daily.data[0].temperatureHigh;
+  let tempLowF = responseJson.daily.data[0].temperatureLow;
 
-  let tempHighF = Number.parseFloat((tempHighC - 32) / 1.8).toFixed(2);
-  let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
+  let tempHighC = Number.parseFloat((tempHighF - 32) / 1.8).toFixed(2);
+  let tempLowC = Number.parseFloat((tempLowF - 32) / 1.8).toFixed(2);
 
   if (weatherText.includes('rain')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
@@ -251,8 +251,8 @@ function renderWeatherInfo(responseJson) {
   }
 
   $('.weather-info').html(`${weatherText}
-  <p> Highs: ${tempHighC}&#8451 / ${tempHighF}&#8457</p>
-  <p> Lows: ${tempLowC}&#8451 / ${tempLowF}&#8457</p>`);
+  <p> Highs: ${tempHighF}&#8457 / ${tempHighC}&#8451</p>
+  <p> Lows: ${tempLowF}&#8457 / ${tempLowC}&#8451</p>`);
 }
 
 function changePage() {
@@ -291,7 +291,7 @@ function getDateString(obj) {
     now.getFullYear();
 }
 
-$(function() {
+$(function () {
   $('#datepicker').datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0
@@ -303,7 +303,7 @@ $(function() {
 
 /*UI Autocomplete Here*/
 
-$('body').on('click', '.restart-button', function(event) {
+$('body').on('click', '.restart-button', function (event) {
   $('.container').show();
   $('h1').show();
   $('.instructions-descrip').show();
@@ -331,7 +331,7 @@ function initialize() {
   }
 }
 
-$(function() {
+$(function () {
   let countries = [
     'Afghanistan',
     'Albania',
