@@ -240,7 +240,7 @@ function renderWeatherInfo(responseJson) {
   let tempHighF = Number.parseFloat((tempHighC - 32) / 1.8).toFixed(2);
   let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
 
-  if (weatherText.includes('rain')) {
+  if (weatherText.includes('rain') || weatherText.includes('drizzle')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
   } else if (weatherText.includes('cloudy')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cloudy.png');
