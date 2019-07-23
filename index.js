@@ -234,11 +234,11 @@ function renderCurrencyExchange(responseJson) {
 
 function renderWeatherInfo(responseJson) {
   let weatherText = responseJson.daily.data[0].summary;
-  let tempHighF = responseJson.daily.data[0].temperatureHigh;
-  let tempLowF = responseJson.daily.data[0].temperatureLow;
+  let tempHighC = responseJson.daily.data[0].temperatureHigh;
+  let tempLowC = responseJson.daily.data[0].temperatureLow;
 
-  let tempHighC = Number.parseFloat((tempHighF - 32) / 1.8).toFixed(2);
-  let tempLowC = Number.parseFloat((tempLowF - 32) / 1.8).toFixed(2);
+  let tempHighF = Number.parseFloat((tempHighC - 32) / 1.8).toFixed(2);
+  let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
 
   if (weatherText.includes('rain')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
@@ -251,8 +251,8 @@ function renderWeatherInfo(responseJson) {
   }
 
   $('.weather-info').html(`${weatherText}
-  <p> Highs: ${tempHighF}&#8457 / ${tempHighC}&#8451</p>
-  <p> Lows: ${tempLowF}&#8457 / ${tempLowC}&#8451</p>`);
+  <p> Highs: ${tempHighC}&#8457 / ${tempHighF}&#8451</p>
+  <p> Lows: ${tempLowC}&#8457 / ${tempLowF}&#8451</p>`);
 }
 
 function changePage() {
