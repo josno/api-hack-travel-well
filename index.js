@@ -233,7 +233,7 @@ function renderCurrencyExchange(responseJson) {
 }
 
 function renderWeatherInfo(responseJson) {
-  let weatherText = responseJson.daily.data[0].summary;
+  let weatherText = responseJson.hourly.data[0].summary;
   let tempHighC = responseJson.daily.data[0].temperatureHigh;
   let tempLowC = responseJson.daily.data[0].temperatureLow;
 
