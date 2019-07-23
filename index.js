@@ -240,11 +240,11 @@ function renderWeatherInfo(responseJson) {
   let tempHighF = Number.parseFloat((tempHighC - 32) / 1.8).toFixed(2);
   let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
 
-  if (weatherText.includes('rain') || weatherText.includes('drizzle')) {
+  if (weatherText.includes('Rain') || weatherText.includes('Drizzle')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
-  } else if (weatherText.includes('cloudy')) {
+  } else if (weatherText.includes('Cloudy')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cloudy.png');
-  } else if (weatherText.includes('snow')) {
+  } else if (weatherText.includes('Snow')) {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cold.png');
   } else {
     $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/sun.png');
