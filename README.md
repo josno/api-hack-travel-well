@@ -21,7 +21,7 @@ You, as a user, can:
 * See the currency exchange rate so that you can get an idea of whether your home currency is stronger or weaker in your destination country and budget appropriately
 * Check the weather on your arrival so that you'll know what to expect as soon as you get off the plane (or whatever vessel of choice)
 
-#User Flow
+# User Flow
 <img src="https://user-images.githubusercontent.com/37735063/60183056-0b21a400-9815-11e9-8313-b8d919a61ba0.JPG">
 
 # Wireframe
