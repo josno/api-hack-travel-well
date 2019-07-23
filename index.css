@@ -9,6 +9,7 @@ body {
   color: #fff1c1;
 }
 
+/* Homepage Elements */
 .header-container {
   display: flex;
   flex-direction: column;
@@ -47,6 +48,8 @@ input[type='text'] {
 .hero-img {
   display: none;
 }
+
+/* Results Elements */
 
 .container {
   background-color: #f76262;
@@ -97,6 +100,10 @@ input[type='text'] {
   padding: 10px;
   text-align: center;
   font-size: 18px;
+}
+
+.capitalize {
+  text-transform: capitalize;   
 }
 
 .icon {
@@ -197,7 +204,7 @@ input[type='text'] {
     grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 1em;
     background-color: #293462;
-    background-image: url('https://github.com/josno/api-hack-travel-well/blob/master/bryan-minear-FPpDMjHVdOY-unsplash.jpg?raw=true');
+    background-image: url('https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/bryan-minear-FPpDMjHVdOY-unsplash.jpg');
     background-size: cover;
   }
 
@@ -220,7 +227,7 @@ input[type='text'] {
     display: flex;
     height: 80vh;
     width: 100vw;
-    background-image: url('https://github.com/josno/api-hack-travel-well/blob/master/alex-blajan-NuX67NMvbus-unsplash.jpg?raw=true');
+    background-image: url('https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/alex-blajan-NuX67NMvbus-unsplash.jpg');
     background-size: cover;
   }
 

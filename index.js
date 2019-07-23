@@ -241,13 +241,13 @@ function renderWeatherInfo(responseJson) {
   let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
 
   if (weatherText.includes('rain')) {
-    $('#weather').attr('src', 'umbrella.png');
+    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
   } else if (weatherText.includes('cloudy')) {
-    $('#weather').attr('src', 'cloudy.png');
+    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cloudy.png');
   } else if (weatherText.includes('snow')) {
-    $('#weather').attr('src', 'cold.png');
+    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cold.png');
   } else {
-    $('#weather').attr('src', 'sun.png');
+    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/sun.png');
   }
 
   $('.weather-info').html(`${weatherText}
@@ -263,8 +263,6 @@ function changePage() {
     .slideUp('slow');
   $('.results-page').show();
 }
-
-/* DOM Manipulation Functions End Here*/
 
 function getDateString(obj) {
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -300,6 +298,11 @@ $(function() {
   });
 });
 
+/* DOM Manipulation Functions End Here*/
+
+
+/*UI Autocomplete Here*/
+
 $('body').on('click', '.restart-button', function(event) {
   $('.container').show();
   $('h1').show();
@@ -318,7 +321,6 @@ $('body').on('click', '.restart-button', function(event) {
   $('.error-box').hide();
 });
 
-/*UI Autocomplete Here*/
 
 function initialize() {
   let acInputs = document.getElementsByClassName('autocomplete');
