@@ -108,7 +108,9 @@ function getCurrencyExchange(codeOne, codeTwo) {
     })
   };
 
-  return fetch(currencyUrl, myHeader).then(response => response.json());
+  return fetch('https://cors-anywhere.herokuapp.com/' + currencyUrl, myHeader).then(response =>
+    response.json()
+  );
 }
 
 function getCityCoordinates(appState) {
