@@ -104,13 +104,11 @@ function getCurrencyExchange(codeOne, codeTwo) {
 
   const myHeader = {
     headers: new Headers({
-      mode: 'no-cors'
+      'Access-Control-Allow-Origin': 'https://josno.github.io'
     })
   };
 
-  return fetch('https://cors-anywhere.herokuapp.com/' + currencyUrl, myHeader).then(response =>
-    response.json()
-  );
+  return fetch(currencyUrl, myHeader).then(response => response.json());
 }
 
 function getCityCoordinates(appState) {
