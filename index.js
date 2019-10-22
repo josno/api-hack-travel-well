@@ -79,9 +79,9 @@ function handleErrors(err) {
 
 function getVisaInfo(citizenship, destination) {
   //Let's deferentiate between the two
-  let myKey = 'AIzaSyCvrk8ZdgVVsToO93v0v5nMheFb5-AaUjk';
+  let visaKey = 'AIzaSyCvrk8ZdgVVsToO93v0v5nMheFb5-AaUjk';
 
-  let urlBase = `https://requirements-api.sandbox.joinsherpa.com/v2/entry-requirements?citizenship=${citizenship}&destination=${destination}&language=en&key=${myKey}`;
+  let urlBase = `https://requirements-api.sandbox.joinsherpa.com/v2/entry-requirements?citizenship=${citizenship}&destination=${destination}&language=en&key=${visaKey}`;
 
   appState.destinationCountryCode = destination;
 
@@ -99,8 +99,8 @@ function getVisaInfo(citizenship, destination) {
 
 function getCurrencyExchange(codeOne, codeTwo) {
   // Utilize currency code from REST countries API to get latest exchange rates
-
-  let currencyUrl = `https://free.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=ce2cecd71a30de95b210`;
+  const currencyKey = 'ce2cecd71a30de95b210';
+  let currencyUrl = `https://free.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=${currencyKey}`;
 
   const myHeader = {
     headers: new Headers({
