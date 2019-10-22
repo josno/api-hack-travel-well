@@ -102,6 +102,13 @@ function getCurrencyExchange(codeOne, codeTwo) {
 
   let currencyUrl = `https://free.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=ce2cecd71a30de95b210`;
 
+  const myHeader = {
+    headers: new Headers ({
+      "Access-Control-Allow-Origin": *,
+      mode: 'no-cors'
+    })
+  }
+
   return fetch(currencyUrl).then(response => response.json());
 }
 
