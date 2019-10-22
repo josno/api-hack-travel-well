@@ -108,7 +108,7 @@ function getCurrencyExchange(codeOne, codeTwo) {
     })
   };
 
-  return fetch(currencyUrl).then(response => response.json());
+  return fetch(currencyUrl, myHeader).then(response => response.json());
 }
 
 function getCityCoordinates(appState) {
