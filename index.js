@@ -9,7 +9,7 @@ const appState = {
   renderedDate: ''
 };
 
-$('body').on('submit', function (event) {
+$('body').on('submit', function(event) {
   event.preventDefault();
   $('.container').hide();
   $('h1').hide();
@@ -103,11 +103,10 @@ function getCurrencyExchange(codeOne, codeTwo) {
   let currencyUrl = `https://free.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=ce2cecd71a30de95b210`;
 
   const myHeader = {
-    headers: new Headers ({
-      "Access-Control-Allow-Origin": *,
+    headers: new Headers({
       mode: 'no-cors'
     })
-  }
+  };
 
   return fetch(currencyUrl).then(response => response.json());
 }
@@ -248,13 +247,25 @@ function renderWeatherInfo(responseJson) {
   let tempLowF = Number.parseFloat((tempLowC - 32) / 1.8).toFixed(2);
 
   if (weatherText.includes('Rain') || weatherText.includes('Drizzle')) {
-    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png');
+    $('#weather').attr(
+      'src',
+      'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/umbrella.png'
+    );
   } else if (weatherText.includes('Cloudy')) {
-    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cloudy.png');
+    $('#weather').attr(
+      'src',
+      'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cloudy.png'
+    );
   } else if (weatherText.includes('Snow')) {
-    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cold.png');
+    $('#weather').attr(
+      'src',
+      'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/cold.png'
+    );
   } else {
-    $('#weather').attr('src', 'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/sun.png');
+    $('#weather').attr(
+      'src',
+      'https://raw.githubusercontent.com/josno/api-hack-travel-well/master/Assets/sun.png'
+    );
   }
 
   $('.weather-info').html(`${weatherText}
@@ -298,7 +309,7 @@ function getDateString(obj) {
     now.getFullYear();
 }
 
-$(function () {
+$(function() {
   $('#datepicker').datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0
@@ -307,10 +318,9 @@ $(function () {
 
 /* DOM Manipulation Functions End Here*/
 
-
 /*UI Autocomplete Here*/
 
-$('body').on('click', '.restart-button', function (event) {
+$('body').on('click', '.restart-button', function(event) {
   $('.container').show();
   $('h1').show();
   $('.instructions-descrip').show();
@@ -328,7 +338,6 @@ $('body').on('click', '.restart-button', function (event) {
   $('.error-box').hide();
 });
 
-
 function initialize() {
   let acInputs = document.getElementsByClassName('autocomplete');
 
@@ -338,7 +347,7 @@ function initialize() {
   }
 }
 
-$(function () {
+$(function() {
   let countries = [
     'Afghanistan',
     'Albania',
