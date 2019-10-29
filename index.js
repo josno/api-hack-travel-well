@@ -102,13 +102,7 @@ function getCurrencyExchange(codeOne, codeTwo) {
   const currencyKey = 'pr_86bed2ce891144ccac74f8db7f6f2eef';
   let currencyUrl = `https://prepaid.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=${currencyKey}`;
 
-  const myHeader = {
-    headers: new Headers({
-      'Access-Control-Allow-Origin': 'https://josno.github.io'
-    })
-  };
-
-  return fetch(currencyUrl, myHeader).then(response => response.json());
+  return fetch(currencyUrl).then(response => response.json());
 }
 
 function getCityCoordinates(appState) {
