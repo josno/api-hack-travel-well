@@ -99,8 +99,8 @@ function getVisaInfo(citizenship, destination) {
 
 function getCurrencyExchange(codeOne, codeTwo) {
   // Utilize currency code from REST countries API to get latest exchange rates
-  const currencyKey = 'ce2cecd71a30de95b210';
-  let currencyUrl = `https://api.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=${currencyKey}`;
+  const currencyKey = 'pr_86bed2ce891144ccac74f8db7f6f2eef';
+  let currencyUrl = `https://prepaid.currconv.com/api/v7/convert?q=${codeOne}_${codeTwo}&apiKey=${currencyKey}`;
 
   const myHeader = {
     headers: new Headers({
